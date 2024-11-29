@@ -1,0 +1,146 @@
+/* General page styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #F37254, #FF6F61); /* Background with gradient */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Main App container */
+.App {
+  text-align: center;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Title Styling */
+h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Input Field Styling */
+.custom-amount, .upi-id-input {
+  font-size: 18px;
+  padding: 10px;
+  margin: 20px 0;
+  width: 100%;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Input focus effect */
+.custom-amount:focus, .upi-id-input:focus {
+  border-color: #F37254;
+  transform: scale(1.05);
+}
+
+/* Payment Button Styling */
+.payment-button {
+  background-color: #F37254;
+  color: white;
+  font-size: 20px;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.payment-button:hover {
+  background-color: #FF6F61;
+  transform: translateY(-5px); /* Hover effect to slide button up */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Shadow on hover */
+}
+
+/* Responsive Styling */
+@media (max-width: 480px) {
+  .App {
+    padding: 20px;
+    width: 80%;
+  }
+
+  .payment-button {
+    width: 100%;
+  }
+}
+
+/* QR Code Styling */
+.qr-code {
+  width: 300px;  /* Adjust the size of the QR code */
+  height: 300px; /* Adjust the size of the QR code */
+  margin-top: 20px;
+  border-radius: 15px; /* Adds rounded corners to the QR code */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for a modern look */
+}
+
+/* Input field for UPI ID */
+.upi-id-input {
+  font-size: 18px;
+  padding: 15px;
+  margin: 20px 0;
+  width: 100%;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Input focus effect for both UPI ID and Amount fields */
+.upi-id-input:focus,
+.amount-input:focus {
+  border-color: #F37254;
+  transform: scale(1.05);
+}
+
+/* Amount input box styling */
+.amount-input {
+  font-size: 18px;
+  padding: 15px;
+  margin: 20px 0;
+  width: 100%;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Payment Button Styling */
+.payment-button {
+  background-color: #F37254;
+  color: white;
+  font-size: 20px;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.payment-button:hover {
+  background-color: #FF6F61;
+  transform: translateY(-5px); /* Hover effect to slide button up */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Shadow on hover */
+}
