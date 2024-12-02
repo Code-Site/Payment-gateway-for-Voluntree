@@ -1,97 +1,126 @@
-import React, { useState, useRef, useEffect } from "react";
-import "./App.css";
-import qrCodeImage from "./qrimage.jpeg"; // Import your QR image
+import React, { useState } from "react";
+import "./App.css"; // Import the CSS file
+import logo from "./qrimage.jpeg"; // Import your image file (update the path accordingly)
 
-function App() {
+
+function VoluntreeDonation() {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [upiId, setUpiId] = useState("");
   const [amount, setAmount] = useState("");
-  const [upiId, setUpiId] = useState(""); // User's UPI ID input
-  const amountInputRef = useRef(null); // Reference for amount input to prevent scroll
 
-  // Handle amount change
-  const handleAmountChange = (e) => {
-    const value = e.target.value;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    // Ensure the value is within the allowed range (1 to 500000)
-    if (value === "" || (value <= 500000 && value >= 1)) {
-      setAmount(value);
-    }
-  };
+    // Replace with your actual Google Form action URL
+    const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSd7NmWSjYOkzLWmVgAIrj99xLSLbzkmsFvjo-AsPll5C44H-Q/formResponse";
 
-  // Handle UPI ID change
-  const handleUpiIdChange = (e) => {
-    setUpiId(e.target.value);
-  };
+    // Form entry IDs from the Google Form's input fields
+    const formData = new URLSearchParams();
+    formData.append("entry.1483531175", email);  // Replace with your form field ID for email
+    formData.append("entry.328333951", name);   // Replace with your form field ID for name
+    formData.append("entry.1840347458", upiId);   // Replace with your form field ID for UPI ID
+    formData.append("entry.1007542278", amount);  // Replace with your form field ID for amount
 
-  // Prevent scroll from changing the amount value
-  const preventScroll = (e) => {
-    e.preventDefault();
-  };
+    try {
+      const response = await fetch(formUrl, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
 
-  // Set up event listener for disabling scroll on the amount input field
-  useEffect(() => {
-    const inputElement = amountInputRef.current;
-
-    // Add event listener to prevent scroll
-    if (inputElement) {
-      inputElement.addEventListener("wheel", preventScroll);
-    }
-
-    // Clean up on component unmount
-    return () => {
-      if (inputElement) {
-        inputElement.removeEventListener("wheel", preventScroll);
+      if (response.ok) {
+        // Open a new tab with the thank you page
+        window.open('/thank-you', '_blank');
+      } else {
+        alert("There was a problem submitting your response.");
       }
-    };
-  }, []);
-
-  // Handle payment redirection
-  const handlePayment = () => {
-    if (!upiId || !amount || amount <= 0) {
-      alert("Please enter a valid UPI ID and amount.");
-      return;
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred. Please try again.");
     }
-
-    // Replace 'yourupi@bank' with your actual UPI ID if you want to pre-fill it
-    const myUpiId = "jeevankumar06m@okicici"; // CHANGE this to your UPI ID
-    const googlePayUrl = `intent://pay?pa=${myUpiId}&pn=Voluntree%20Donation&am=${amount}&cu=INR#Intent;package=com.google.android.apps.nbu.paisa.user;scheme=upi;end`;
-
-    window.location.href = googlePayUrl;
   };
 
   return (
-    <div className="App">
-      <h1>Voluntree</h1>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        backgroundColor: "#FF7F50", // Coral background
+        color: "#fff",
+        fontFamily: "Arial, sans-serif",
+        padding: "20px",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Title should be above the image */}
+      <h1 style={{ marginBottom: "20px", textAlign: "center" }}>VOLUNTREE</h1>
 
-      {/* QR Code Image */}
-      <img src={qrCodeImage} alt="UPI QR Code" className="qr-code" />
-
-      {/* UPI ID Input */}
-      <input
-        type="text"
-        className="upi-id-input"
-        placeholder="Enter your UPI ID"
-        value={upiId}
-        onChange={handleUpiIdChange}
+      {/* Image with hover effect class */}
+      <img
+        src={logo}
+        alt="Voluntree Logo" // Add an alt description for accessibility
+        className="donation-image" // Apply the CSS class
+        style={{
+          width: "150px", // Adjust size as needed
+          height: "auto", // Maintain aspect ratio
+          borderRadius: "15px", // Rounded edges
+          marginBottom: "20px", // Space between the image and the form
+          transition: "transform 0.3s, box-shadow 0.3s",
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.transform = "scale(1.05)";
+          e.target.style.boxShadow = "0 0 15px rgba(255, 99, 71, 0.3)";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.transform = "scale(1)";
+          e.target.style.boxShadow = "none";
+        }}
       />
 
-      {/* Amount Input */}
-      <input
-        ref={amountInputRef}
-        type="number"
-        className="amount-input"
-        placeholder="Enter amount"
-        value={amount}
-        onChange={handleAmountChange}
-        min="1"
-        max="500000" // Maximum amount limit
-      />
-
-      {/* Pay Button */}
-      <button className="payment-button" onClick={handlePayment}>
-        Pay ₹{amount || "0"}
-      </button>
+      {/* Form */}
+      <form onSubmit={handleSubmit} style={{ width: "100%", maxWidth: "400px", textAlign: "center" }}>
+        <input
+          type="email"
+          placeholder="Your Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Transaction ID"
+          value={upiId}
+          onChange={(e) => setUpiId(e.target.value)}
+        />
+<input
+  type="number"
+  placeholder="Amount"
+  value={amount}
+  onChange={(e) => {
+    const value = e.target.value;
+    if (value === "" || (Number(value) >= 0 && !value.startsWith("-"))) {
+      setAmount(value);
+    }
+  }}
+  onWheel={(e) => e.target.blur()} // Prevent scrolling in the input
+/>
+        <button type="submit">
+          Submit Payment Details
+        </button>
+      </form>
     </div>
   );
 }
 
-export default App;
+export default VoluntreeDonation;
